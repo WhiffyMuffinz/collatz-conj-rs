@@ -1,5 +1,8 @@
+//use std::fs::File;
+//use std::io::{Write, BufReader, BufRead, Error};
+
 fn main() {
-    let m = hasse(100, 1001);
+    let m = hasse(2<<63, 2<<65);
 
     for i in m {
         for j in i{
@@ -43,3 +46,5 @@ fn apply_rules(n: i128) -> i128 {
         return 3 * n + 1;
     }
 }
+
+//TODO: implement write to file
