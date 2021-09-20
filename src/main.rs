@@ -1,14 +1,16 @@
 use std::env;
 use std::fs::File;
+//use std::io::Read;
 use std::io::Write;
 
 fn main() {
     let data = hasse(2 << 10, 2 << 12);
 
-    //let mut file = create_file();
+    let mut file = create_file();
     for arr in data.clone() {
-        write_to_file(create_file(), arr);
+        write_to_file(&file, arr);
     }
+    
     for i in &data {
         for j in i {
             print!("{}, ", j);
@@ -50,20 +52,30 @@ fn apply_rules(n: u128) -> u128 {
 }
 
 //TODO: implement copy file then concatenate new values to existing string
-fn vec_to_string(n: Vec<u128>) -> String {
-    let mut out = String::new();
-    for i in 0..n.len() {
-        let m = n[i];
-        out += &m.to_string();
-        if i < n.len() - 1 {
-            out += ", "
-        }
-    }
-    out
-}
+//fn vec_to_string(n: Vec<u128>) -> String {
+//    let mut out = String::new();
+//    for i in 0..n.len() {
+//        let m = n[i];
+//        out += &m.to_string();
+//        if i < n.len() - 1 {
+//            out += ", "
+//        }
+//    }
+//    out
+//}
 
-fn write_to_file(mut dest: File, datum: Vec<u128>){
-    writeln!(&mut dest, "{}", vec_to_string(datum)).unwrap();
+
+fn write_to_file(mut dest: &File, data: Vec<u128>) {
+    let mut n = 0;
+    for i in &data {
+        if n < data.len() - 1 {
+                write!(dest, "{}, ", i).unwrap();
+        } else {
+            write!(dest, "{}", i).unwrap();
+        }
+        n += 1;
+    }
+    write!(dest, "\n").unwrap();
 }
 
 fn create_file() -> File {
